@@ -26,8 +26,7 @@
 
 ### 🔍 **Universal Error Handling**
 - **Profiler Integration**: Enhanced Symfony profiler with AI insights
-- **500 Error Coverage**: Handles critical errors when profiler isn't available
-- **YAML Syntax Errors**: Catches configuration mistakes before they break your app
+- ~~**500 Error Coverage**: Handles critical errors when profiler isn't available~~
 - **Missing Bundle Detection**: Identifies and helps resolve dependency issues
 
 ### 🎯 **Developer-Friendly**
@@ -75,7 +74,7 @@ rodoud_profiler_assistant:
 Once installed, the Profiler Assistant automatically:
 
 1. **Enhances your Symfony profiler** with AI-powered error analysis
-~~2. **Intercepts 500 errors** when profiler isn't available~~
+2. ~~**Intercepts 500 errors** when profiler isn't available~~
 3. **Provides intelligent suggestions** for common issues
 4. **Enables AI chat** for personalized help
 
