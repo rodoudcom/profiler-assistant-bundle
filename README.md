@@ -60,12 +60,23 @@ return [
 Add routing to your `config/routes.yaml`:
 
 ```yaml
-rodoud_profiler_assistant:
+when@dev:
+  rodoud_profiler_assistant:
     resource: '@RodoudProfilerAssistantBundle/src/Controller/'
     type: attribute
-    prefix: /rodoud
+    prefix: /_rodoud
 ```
 
+#### Optional Security Configuration
+
+If your app uses security (authentication or access control),  
+you need to add this rule to allow access to the profiler controller:
+
+```yaml
+security:
+  access_control:
+    - { path: ^/_rodoud, roles: PUBLIC_ACCESS }
+```
 
 ## 🚀 Usage
 
