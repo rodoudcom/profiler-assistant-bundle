@@ -1,0 +1,33 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Rodoud\ProfilerAssistantBundle\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']
+
+  # Explicitly register the controller to ensure it's discovered
+  Rodoud\ProfilerAssistantBundle\Controller\ProfilerAssistantController:
+    tags: ['controller.service_arguments']
+
+  Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
+
+  Rodoud\ProfilerAssistantBundle\Service\:
+    resource: '../src/Service'
+
+  Rodoud\ProfilerAssistantBundle\DataCollector\AiAssistantDataCollector:
+    tags:
+      - { name: data_collector, template: '@RodoudProfilerAssistant/data_collector/ai_assistant.html.twig', id: 'rodoud.ai_assistant', priority: 255 }
+    public: false
+
+  # HTTP Client for AI service
+  rodoud.ai_assistant.http_client:
+    class: Symfony\Component\HttpClient\CurlHttpClient
+    arguments:
+      - { timeout: 30 }
+
+  Rodoud\ProfilerAssistantBundle\Service\AiAnalysisService:
+    arguments:
+      $httpClient: '@rodoud.ai_assistant.http_client'

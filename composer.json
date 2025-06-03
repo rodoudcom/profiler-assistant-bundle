@@ -1,0 +1,44 @@
+{
+  "name": "rodoud/profiler-assistant-bundle",
+  "type": "symfony-bundle",
+  "description": "AI-powered profiler assistant for Symfony applications - helps beginners understand and fix errors",
+  "keywords": ["symfony", "bundle", "profiler", "ai", "assistant", "debugging"],
+  "homepage": "https://rodoud.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Adnen Chouibi",
+      "email": "adnen.chouibi@gmail.com",
+      "homepage": "https://rodoud.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "symfony/framework-bundle": "^7.0",
+    "symfony/dependency-injection": "^7.0",
+    "symfony/config": "^7.0",
+    "symfony/http-kernel": "^7.0",
+    "symfony/web-profiler-bundle": "^7.0",
+    "symfony/twig-bundle": "^7.0",
+    "symfony/http-client": "^7.0"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rodoud\\ProfilerAssistantBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Rodoud\\ProfilerAssistantBundle\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0.0-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

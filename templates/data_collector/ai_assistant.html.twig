@@ -1,0 +1,128 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/rodoudprofilerassistant/css/ai-assistant.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/styles/base16/google-light.min.css">
+{% endblock %}
+
+{% block toolbar %}
+    {% if collector.hasException %}
+        {% set icon %}
+            <svg fill="#ffffff" width="64px" height="64px" viewBox="0 0 256.00 256.00" id="Flat"
+                 xmlns="http://www.w3.org/2000/svg" transform="rotate(0)" stroke="#000000" stroke-width="0.00256">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                   stroke-width="1.536"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M256,152a12.00028,12.00028,0,0,1-12,12H232v12a12,12,0,0,1-24,0V164H196a12,12,0,0,1,0-24h12V128a12,12,0,0,1,24,0v12h12A12.00028,12.00028,0,0,1,256,152ZM60,68h8v8a12,12,0,0,0,24,0V68h8a12,12,0,0,0,0-24H92V36a12,12,0,0,0-24,0v8H60a12,12,0,0,0,0,24ZM180,192h-4v-4a12,12,0,0,0-24,0v4h-4a12,12,0,0,0,0,24h4v4a12,12,0,0,0,24,0v-4h4a12,12,0,0,0,0-24Zm4.48438-71.51367L78.14258,226.82861a20.02755,20.02755,0,0,1-28.28418.00147L29.17188,206.1416a19.9986,19.9986,0,0,1,.001-28.28515L177.85742,29.17187a20.02592,20.02592,0,0,1,28.28418-.00146l20.68653,20.6875a19.99862,19.99862,0,0,1,0,28.28418l-42.3418,42.34228-.001.001ZM160.9707,80,176,95.0293,207.0293,64,192,48.97021Zm-1.9414,32L144,96.9707,48.9707,192,64,207.02979Z"></path>
+                </g>
+            </svg>
+            <span class="sf-toolbar-value">Fix</span>
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-group">
+                <div class="sf-toolbar-info-piece">
+                    <b>AI Assistant</b>
+                    <span>{{ collector.hasException ? 'Error Analysis Available' : 'Ready' }}</span>
+                </div>
+                {% if collector.hasException %}
+                    <div class="sf-toolbar-info-piece">
+                        <b>Error</b>
+                        <span>{{ collector.exceptionData.class|split('\\')|last }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', {
+            link: profiler_url,
+            status: collector.hasException ? 'red' : 'normal'
+        }) }}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+    <span class="label {{ collector.hasException ? 'label-status-error' : 'disabled' }}">
+        <span class="icon">
+<svg fill="{{ collector.hasException ? '#808080' : '#d5d5d5' }}" width="64px" height="64px" viewBox="0 0 256.00 256.00"
+     id="Flat" xmlns="http://www.w3.org/2000/svg"
+     transform="rotate(0)" stroke-width="0.00256">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="1.536"></g><g id="SVGRepo_iconCarrier"> <path
+                d="M256,152a12.00028,12.00028,0,0,1-12,12H232v12a12,12,0,0,1-24,0V164H196a12,12,0,0,1,0-24h12V128a12,12,0,0,1,24,0v12h12A12.00028,12.00028,0,0,1,256,152ZM60,68h8v8a12,12,0,0,0,24,0V68h8a12,12,0,0,0,0-24H92V36a12,12,0,0,0-24,0v8H60a12,12,0,0,0,0,24ZM180,192h-4v-4a12,12,0,0,0-24,0v4h-4a12,12,0,0,0,0,24h4v4a12,12,0,0,0,24,0v-4h4a12,12,0,0,0,0-24Zm4.48438-71.51367L78.14258,226.82861a20.02755,20.02755,0,0,1-28.28418.00147L29.17188,206.1416a19.9986,19.9986,0,0,1,.001-28.28515L177.85742,29.17187a20.02592,20.02592,0,0,1,28.28418-.00146l20.68653,20.6875a19.99862,19.99862,0,0,1,0,28.28418l-42.3418,42.34228-.001.001ZM160.9707,80,176,95.0293,207.0293,64,192,48.97021Zm-1.9414,32L144,96.9707,48.9707,192,64,207.02979Z"></path> </g></svg>
+        </span>
+        <strong>AI Assistant</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <div class="ai-assistant-panel">
+        <h2>AI Assistant</h2>
+
+        {% if collector.hasException %}
+            <div class="ai-analysis-section">
+                <div class="error-summary">
+                    <strong>{{ collector.exceptionData.class|split('\\')|last }}</strong>:
+                    {{ collector.exceptionData.message }}
+                    <br>
+                    <small>{{ collector.exceptionData.file }}:{{ collector.exceptionData.line }}</small>
+                </div>
+
+
+                <div id="ai-analysis-result" class="ai-result" style="display: none;">
+                    <div class="loading">Analyzing your error...</div>
+                </div>
+
+            </div>
+
+
+            <div class="ai-chat-section">
+                <h3>💬 Chat with AI Assistant</h3>
+                <div id="chat-container" class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="message ai-message">
+                            <strong>AI Assistant:</strong>
+                            Hello! I'm here to help you understand and fix Symfony issues.
+                            {% if collector.hasException %}
+                                I can see you have an error - would you like me to analyze it?
+                            {% else %}
+                                How can I assist you today?
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Ask me about your Symfony issue..."/>
+                        <button id="send-chat-btn" type="button">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            {% if collector.contextForAi is defined %}
+                <div class="context-section">
+                    <h3>📋 Request Context</h3>
+                    <details>
+                        <summary>View Context Data</summary>
+                        <pre>{{ collector.contextForAi|default([])|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                    </details>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        // Pass context data to JavaScript
+        window.aiAssistantContext = {{ collector.contextForAi|json_encode|raw }};
+        window.aiAssistantEndpoints = {
+            analyze: '{{ path('rodoud_ai_assistant_analyze') }}',
+            chat: '{{ path('rodoud_ai_assistant_chat') }}'
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ asset('bundles/rodoudprofilerassistant/js/ai-assistant.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/twig.min.js"></script>
+{% endblock %}
